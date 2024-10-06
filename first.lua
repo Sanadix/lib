@@ -281,55 +281,43 @@ function library:addTab(name)
             library.flags[args.flag] = false
             library.options[args.flag] = {type = "toggle",changeState = toggle,skipflag = args.skipflag,oldargs = args}
             local toggle = {}
-            function group:addKeybind(args)
-                if not args.flag then return warn("Invalid Args - toggle:keybind") end
-                groupbox.Size += UDim2.new(0, 0, 0, 30) -- Augmenter la hauteur pour que tout s'affiche correctement
+            function toggle:addKeybind(args)
+                if not args.flag then return warn("⚠️ incorrect arguments ⚠️ - missing args on toggle:keybind") end
                 local next = false
+                
                 local keybind = Instance.new("Frame")
-                local text = Instance.new("TextLabel")
                 local button = Instance.new("TextButton")
-            
-                keybind.Parent = grouper
+
+                keybind.Parent = toggleframe
                 keybind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 keybind.BackgroundTransparency = 1.000
+                keybind.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 keybind.BorderSizePixel = 0
-                keybind.Size = UDim2.new(1, 0, 0, 20) -- Ajuster la taille du Keybind
-            
-                text.Parent = keybind
-                text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                text.BackgroundTransparency = 1.000
-                text.Position = UDim2.new(0.05, 0, 0, 0) -- Ajuster la position pour un bon alignement
-                text.Size = UDim2.new(0.5, 0, 1, 0) -- Augmenter la taille pour bien contenir le texte
-                text.Font = Enum.Font.Code
-                text.Text = args.text or args.flag
-                text.TextColor3 = Color3.fromRGB(244, 244, 244)
-                text.TextSize = 14 -- Taille augmentée pour meilleure lisibilité
-                text.TextStrokeTransparency = 0.000
-                text.TextXAlignment = Enum.TextXAlignment.Left
-            
+                keybind.Position = UDim2.new(0.720000029, 4, 0.272000015, 0)
+                keybind.Size = UDim2.new(0, 51, 0, 10)
+                
                 button.Parent = keybind
-                button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                button.BackgroundColor3 = Color3.fromRGB(187, 131, 255)
                 button.BackgroundTransparency = 1.000
                 button.BorderSizePixel = 0
-                button.Position = UDim2.new(0.6, 0, 0, 0) -- Décaler à droite pour plus d'espace
-                button.Size = UDim2.new(0.35, 0, 1, 0) -- Ajuster la taille du bouton pour être plus grand
+                button.Position = UDim2.new(-0.270902753, 0, 0, 0)
+                button.Size = UDim2.new(1.27090275, 0, 1, 0)
                 button.Font = Enum.Font.Code
-                button.Text = "--"
+                button.Text = ""
                 button.TextColor3 = Color3.fromRGB(155, 155, 155)
-                button.TextSize = 14 -- Taille du texte plus lisible
+                button.TextSize = 13.000
                 button.TextStrokeTransparency = 0.000
-                button.TextXAlignment = Enum.TextXAlignment.Center -- Centrer le texte
-            
+                button.TextXAlignment = Enum.TextXAlignment.Right
+    
                 function updateValue(val)
                     if library.colorpicking then return end
                     library.flags[args.flag] = val
                     button.Text = keyNames[val] or val.Name
                 end
-            
                 inputService.InputBegan:Connect(function(key)
                     local key = key.KeyCode == Enum.KeyCode.Unknown and key.UserInputType or key.KeyCode
                     if next then
-                        if not table.find(library.blacklisted, key) then
+                        if not table.find(library.blacklisted,key) then
                             next = false
                             library.flags[args.flag] = key
                             button.Text = keyNames[key] or key.Name
@@ -340,18 +328,18 @@ function library:addTab(name)
                         args.callback()
                     end
                 end)
-            
+    
                 button.MouseButton1Click:Connect(function()
                     if library.colorpicking then return end
                     library.flags[args.flag] = Enum.KeyCode.Unknown
-                    button.Text = "..."
-                    button.TextColor3 = Color3.new(0.2, 0.2, 0.2)
+                    button.Text = "--"
+                    button.TextColor3 = library.libColor
                     next = true
                 end)
-            
+    
                 library.flags[args.flag] = Enum.KeyCode.Unknown
-                library.options[args.flag] = {type = "keybind", changeState = updateValue, skipflag = args.skipflag, oldargs = args}
-            
+                library.options[args.flag] = {type = "keybind",changeState = updateValue,skipflag = args.skipflag,oldargs = args}
+    
                 updateValue(args.key or Enum.KeyCode.Unknown)
             end
             function toggle:addColorpicker(args)
