@@ -9,7 +9,7 @@ local mouse          = localPlayer:GetMouse()
 local menu           = game:GetObjects("rbxassetid://12702460854")[1]
 menu.bg.Position     = UDim2.new(0.5,-menu.bg.Size.X.Offset/2,0.5,-menu.bg.Size.Y.Offset/2)
 menu.Parent          = game:GetService("CoreGui")
-menu.bg.pre.Text = 'Seere<font color="#c375ae">.vip</font> - DEV BUILD'
+menu.bg.pre.Text = 'Seere<font color="#c375ae">.vip</font> - fiji was here!!!!'
 local library = {cheatname = "";ext = "";gamename = "";colorpicking = false;tabbuttons = {};tabs = {};options = {};flags = {};scrolling = false;notifyText = Drawing.new("Text");playing = false;multiZindex = 200;toInvis = {};libColor = Color3.fromRGB(240, 142, 214);disabledcolor = Color3.fromRGB(233, 0, 0);blacklisted = {Enum.KeyCode.W,Enum.KeyCode.A,Enum.KeyCode.S,Enum.KeyCode.D,Enum.UserInputType.MouseMovement}}
 
 function draggable(a)local b=inputService;local c;local d;local e;local f;local function g(h)if not library.colorpicking then local i=h.Position-e;a.Position=UDim2.new(f.X.Scale,f.X.Offset+i.X,f.Y.Scale,f.Y.Offset+i.Y)end end;a.InputBegan:Connect(function(h)if h.UserInputType==Enum.UserInputType.MouseButton1 or h.UserInputType==Enum.UserInputType.Touch then c=true;e=h.Position;f=a.Position;h.Changed:Connect(function()if h.UserInputState==Enum.UserInputState.End then c=false end end)end end)a.InputChanged:Connect(function(h)if h.UserInputType==Enum.UserInputType.MouseMovement or h.UserInputType==Enum.UserInputType.Touch then d=h end end)b.InputChanged:Connect(function(h)if h==d and c then g(h)end end)end
@@ -1546,78 +1546,77 @@ function library:addTab(name)
             updateValue(args.color or Color3.new(1,1,1))
         end
         function group:addKeybind(args)
-        if not args.flag then return warn("Invalid Args - toggle:keybind") end
-        groupbox.Size += UDim2.new(0, 0, 0, 30) -- Augmenter la hauteur pour que tout s'affiche correctement
-        local next = false
-        local keybind = Instance.new("Frame")
-        local text = Instance.new("TextLabel")
-        local button = Instance.new("TextButton")
-    
-        keybind.Parent = grouper
-        keybind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        keybind.BackgroundTransparency = 1.000
-        keybind.BorderSizePixel = 0
-        keybind.Size = UDim2.new(1, 0, 0, 20) -- Ajuster la taille du Keybind
-    
-        text.Parent = keybind
-        text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        text.BackgroundTransparency = 1.000
-        text.Position = UDim2.new(0.05, 0, 0, 0) -- Ajuster la position pour un bon alignement
-        text.Size = UDim2.new(0.5, 0, 1, 0) -- Augmenter la taille pour bien contenir le texte
-        text.Font = Enum.Font.Code
-        text.Text = args.text or args.flag
-        text.TextColor3 = Color3.fromRGB(244, 244, 244)
-        text.TextSize = 14 -- Taille augmentée pour meilleure lisibilité
-        text.TextStrokeTransparency = 0.000
-        text.TextXAlignment = Enum.TextXAlignment.Left
-    
-        button.Parent = keybind
-        button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        button.BackgroundTransparency = 1.000
-        button.BorderSizePixel = 0
-        button.Position = UDim2.new(0.6, 0, 0, 0) -- Décaler à droite pour plus d'espace
-        button.Size = UDim2.new(0.35, 0, 1, 0) -- Ajuster la taille du bouton pour être plus grand
-        button.Font = Enum.Font.Code
-        button.Text = "--"
-        button.TextColor3 = Color3.fromRGB(155, 155, 155)
-        button.TextSize = 14 -- Taille du texte plus lisible
-        button.TextStrokeTransparency = 0.000
-        button.TextXAlignment = Enum.TextXAlignment.Center -- Centrer le texte
-    
-        function updateValue(val)
-            if library.colorpicking then return end
-            library.flags[args.flag] = val
-            button.Text = keyNames[val] or val.Name
-        end
-    
-        inputService.InputBegan:Connect(function(key)
-            local key = key.KeyCode == Enum.KeyCode.Unknown and key.UserInputType or key.KeyCode
-            if next then
-                if not table.find(library.blacklisted, key) then
-                    next = false
-                    library.flags[args.flag] = key
-                    button.Text = keyNames[key] or key.Name
-                    button.TextColor3 = Color3.fromRGB(155, 155, 155)
+            if not args.flag then return warn("⚠️ incorrect arguments ⚠️ - missing args on toggle:keybind") end
+            groupbox.Size += UDim2.new(0, 0, 0, 20)
+            local next = false
+            
+            local keybind = Instance.new("Frame")
+            local text = Instance.new("TextLabel")
+            local button = Instance.new("TextButton")
+
+            keybind.Parent = grouper
+            keybind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            keybind.BackgroundTransparency = 1.000
+            keybind.BorderSizePixel = 0
+            keybind.Size = UDim2.new(1, 0, 0, 20)
+            
+            text.Parent = keybind
+            text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            text.BackgroundTransparency = 1.000
+            text.Position = UDim2.new(0.02, -1, 0, 10)
+            text.Font = Enum.Font.Code
+            text.Text = args.text or args.flag
+            text.TextColor3 = Color3.fromRGB(244, 244, 244)
+            text.TextSize = 13.000
+            text.TextStrokeTransparency = 0.000
+            text.TextXAlignment = Enum.TextXAlignment.Left
+            
+            button.Parent = keybind
+            button.BackgroundColor3 = Color3.fromRGB(187, 131, 255)
+            button.BackgroundTransparency = 1.000
+            button.BorderSizePixel = 0
+            button.Position = UDim2.new(7.09711117e-08, 0, 0, 0)
+            button.Size = UDim2.new(0.02, 0, 1, 0)
+            button.Font = Enum.Font.Code
+            button.Text = "--"
+            button.TextColor3 = Color3.fromRGB(155, 155, 155)
+            button.TextSize = 13.000
+            button.TextStrokeTransparency = 0.000
+            button.TextXAlignment = Enum.TextXAlignment.Right
+
+            function updateValue(val)
+                if library.colorpicking then return end
+                library.flags[args.flag] = val
+                button.Text = keyNames[val] or val.Name
+            end
+            inputService.InputBegan:Connect(function(key)
+                local key = key.KeyCode == Enum.KeyCode.Unknown and key.UserInputType or key.KeyCode
+                if next then
+                    if not table.find(library.blacklisted,key) then
+                        next = false
+                        library.flags[args.flag] = key
+                        button.Text = keyNames[key] or key.Name
+                        button.TextColor3 = Color3.fromRGB(155, 155, 155)
+                    end
                 end
-            end
-            if not next and key == library.flags[args.flag] and args.callback then
-                args.callback()
-            end
-        end)
-    
-        button.MouseButton1Click:Connect(function()
-            if library.colorpicking then return end
+                if not next and key == library.flags[args.flag] and args.callback then
+                    args.callback()
+                end
+            end)
+
+            button.MouseButton1Click:Connect(function()
+                if library.colorpicking then return end
+                library.flags[args.flag] = Enum.KeyCode.Unknown
+                button.Text = "..."
+                button.TextColor3 = Color3.new(0.2,0.2,0.2)
+                next = true
+            end)
+
             library.flags[args.flag] = Enum.KeyCode.Unknown
-            button.Text = "..."
-            button.TextColor3 = Color3.new(0.2, 0.2, 0.2)
-            next = true
-        end)
-    
-        library.flags[args.flag] = Enum.KeyCode.Unknown
-        library.options[args.flag] = {type = "keybind", changeState = updateValue, skipflag = args.skipflag, oldargs = args}
-    
-        updateValue(args.key or Enum.KeyCode.Unknown)
-    end
+            library.options[args.flag] = {type = "keybind",changeState = updateValue,skipflag = args.skipflag,oldargs = args}
+
+            updateValue(args.key or Enum.KeyCode.Unknown)
+        end
         return group, groupbox
     end
     return tab
