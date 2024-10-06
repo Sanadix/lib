@@ -1563,8 +1563,8 @@ function library:addTab(name)
             text.Parent = keybind
             text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             text.BackgroundTransparency = 1.000
-            text.Position = UDim2.new(0.02, 0, 0, 0)  -- Ajustement de la position
-            text.Size = UDim2.new(0.7, 0, 1, 0)  -- Ajustement de la taille
+            text.Position = UDim2.new(0.02, 0, 0, 0) -- Ajustement de la position
+            text.Size = UDim2.new(0.7, 0, 1, 0) -- Ajustement de la taille
             text.Font = Enum.Font.Code
             text.Text = args.text or args.flag
             text.TextColor3 = Color3.fromRGB(244, 244, 244)
@@ -1576,8 +1576,8 @@ function library:addTab(name)
             button.BackgroundColor3 = Color3.fromRGB(187, 131, 255)
             button.BackgroundTransparency = 1.000
             button.BorderSizePixel = 0
-            button.Position = UDim2.new(0.75, 0, 0, 0)  -- Ajustement de la position du bouton
-            button.Size = UDim2.new(0.2, 0, 1, 0)  -- Ajustement de la taille du bouton
+            button.Position = UDim2.new(0.75, 0, 0, 0) -- Ajustement de la position du bouton
+            button.Size = UDim2.new(0.2, 0, 1, 0) -- Ajustement de la taille du bouton
             button.Font = Enum.Font.Code
             button.Text = "--"
             button.TextColor3 = Color3.fromRGB(155, 155, 155)
@@ -1618,8 +1618,7 @@ function library:addTab(name)
             library.options[args.flag] = {type = "keybind", changeState = updateValue, skipflag = args.skipflag, oldargs = args}
         
             updateValue(args.key or Enum.KeyCode.Unknown)
-        end
-        
+        end        
         return group, groupbox
     end
     return tab
