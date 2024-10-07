@@ -1,45 +1,62 @@
 local tweenService = game:GetService("TweenService")
+local coreGui = game:GetService("CoreGui")
 
-local library = {
-    notifications = {},
-    playingNotification = false
-}
+local notificationLibrary = {}
+local notifications = {}
 
-function library:Tween(...)
-    tweenService:Create(...):Play()
-end
+function notificationLibrary:notify(text, duration)
+    duration = duration or 5 
 
-function library:notify(text)
-    if self.playingNotification then return end
-    self.playingNotification = true
-    
     local notification = Instance.new("Frame")
-    notification.AnchorPoint = Vector2.new(1, 1)
-    notification.Position = UDim2.new(1, -10, 1, -10)
-    notification.Size = UDim2.new(0, 300, 0, 50)
+    notification.BackgroundTransparency = 1
+    notification.Size = UDim2.new(0, 250, 0, 50)
+    notification.Position = UDim2.new(1, 300, 1, -100) 
     notification.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    notification.BorderSizePixel = 0
-    notification.Parent = game:GetService("CoreGui")
+    notification.BorderSizePixel = 2
+    notification.BorderColor3 = Color3.fromRGB(60, 60, 60)
+    notification.Parent = coreGui
 
-    local label = Instance.new("TextLabel")
-    label.Text = text
-    label.Font = Enum.Font.Code
-    label.TextColor3 = Color3.fromRGB(244, 244, 244)
-    label.TextSize = 14
-    label.BackgroundTransparency = 1
-    label.Size = UDim2.new(1, -20, 1, -10)
-    label.Position = UDim2.new(0, 10, 0, 5)
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = notification
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Text = text
+    textLabel.Font = Enum.Font.Code
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.TextSize = 14
+    textLabel.BackgroundTransparency = 1
+    textLabel.Size = UDim2.new(1, -10, 1, -10)
+    textLabel.Position = UDim2.new(0, 5, 0, 5)
+    textLabel.Parent = notification
 
-    self:Tween(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(1, -10, 1, -70)})
+    table.insert(notifications, notification)
+    self:updatePositions()
 
-    task.wait(3)
-    self:Tween(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1, -10, 1, 10)})
+    local tweenIn = tweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        Position = UDim2.new(1, -260, 1, -100 - (#notifications - 1) * 55),
+        BackgroundTransparency = 0
+    })
+    tweenIn:Play()
 
-    task.wait(0.5)
-    notification:Destroy()
-    self.playingNotification = false
+    task.wait(duration)
+
+    local tweenOut = tweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+        Position = UDim2.new(1, 300, 1, -100 - (#notifications - 1) * 55),
+        BackgroundTransparency = 1
+    })
+    tweenOut:Play()
+
+    tweenOut.Completed:Connect(function()
+        notification:Destroy()
+        table.remove(notifications, table.find(notifications, notification))
+        self:updatePositions()
+    end)
 end
 
-return library
+function notificationLibrary:updatePositions()
+    for i, notification in ipairs(notifications) do
+        local tween = tweenService:Create(notification, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            Position = UDim2.new(1, -260, 1, -100 - (i - 1) * 55)
+        })
+        tween:Play()
+    end
+end
+
+return notificationLibrary
