@@ -1,39 +1,35 @@
-local notificationLib = {}
-notificationLib.activeNotifications = {}
-function notificationLib:createNotification(text, duration)
-    duration = duration or 5
+local library = {}
 
-    local notificationFrame = Instance.new("Frame")
-    notificationFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    notificationFrame.BorderSizePixel = 0
-    notificationFrame.Size = UDim2.new(0, 250, 0, 50)
-    notificationFrame.Position = UDim2.new(1, -260, 1, -60 - (#self.activeNotifications * 60))
-    notificationFrame.AnchorPoint = Vector2.new(1, 1)
-    notificationFrame.BackgroundTransparency = 1
+function library:notify(text, duration)
+    duration = duration or 3 
+    local screenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+    local frame = Instance.new("Frame", screenGui)
+    frame.Size = UDim2.new(0, 300, 0, 50)
+    frame.Position = UDim2.new(1, -310, 1, -60)
+    frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    frame.BorderSizePixel = 2
 
-    local textLabel = Instance.new("TextLabel")
-    textLabel.Parent = notificationFrame
-    textLabel.BackgroundTransparency = 1
+    local textLabel = Instance.new("TextLabel", frame)
     textLabel.Size = UDim2.new(1, -10, 1, -10)
     textLabel.Position = UDim2.new(0, 5, 0, 5)
-    textLabel.Font = Enum.Font.Code
+    textLabel.BackgroundTransparency = 1
     textLabel.Text = text
-    textLabel.TextColor3 = Color3.fromRGB(244, 244, 244)
+    textLabel.Font = Enum.Font.Code
     textLabel.TextSize = 14
-    textLabel.TextXAlignment = Enum.TextXAlignment.Left
+    textLabel.TextColor3 = Color3.fromRGB(244, 244, 244)
+    textLabel.TextStrokeTransparency = 0
+    textLabel.TextXAlignment = Enum.TextXAlignment.Center
+    textLabel.TextYAlignment = Enum.TextYAlignment.Center
 
-    notificationFrame.Parent = game.CoreGui
+    frame:TweenPosition(UDim2.new(1, -310, 1, -120), "Out", "Quad", 0.5, true)
 
-    table.insert(self.activeNotifications, notificationFrame)
-    game:GetService("TweenService"):Create(notificationFrame, TweenInfo.new(0.3), {BackgroundTransparency = 0}):Play()
-
-    task.spawn(function()
+    spawn(function()
         wait(duration)
-        game:GetService("TweenService"):Create(notificationFrame, TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
-        wait(0.3)
-        notificationFrame:Destroy()
-        table.remove(self.activeNotifications, table.find(self.activeNotifications, notificationFrame))
+        frame:TweenPosition(UDim2.new(1, -310, 1, 0), "In", "Quad", 0.5, true)
+        wait(0.5)
+        screenGui:Destroy()
     end)
 end
 
-return notificationLib
+return library
