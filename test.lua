@@ -24,6 +24,7 @@ function notificationLibrary:notify(text, duration)
     textLabel.BackgroundTransparency = 1
     textLabel.Size = UDim2.new(1, -10, 1, -10)
     textLabel.Position = UDim2.new(0, 5, 0, 5)
+    textLabel.TextWrapped = true
     textLabel.Parent = notification
 
     table.insert(notifications, notification)
@@ -35,18 +36,18 @@ function notificationLibrary:notify(text, duration)
     })
     tweenIn:Play()
 
-    task.wait(duration)
+    task.delay(duration, function()
+        local tweenOut = tweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+            Position = UDim2.new(1, 300, 1, -100 - (#notifications - 1) * 55),
+            BackgroundTransparency = 1
+        })
+        tweenOut:Play()
 
-    local tweenOut = tweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-        Position = UDim2.new(1, 300, 1, -100 - (#notifications - 1) * 55),
-        BackgroundTransparency = 1
-    })
-    tweenOut:Play()
-
-    tweenOut.Completed:Connect(function()
-        notification:Destroy()
-        table.remove(notifications, table.find(notifications, notification))
-        self:updatePositions()
+        tweenOut.Completed:Connect(function()
+            notification:Destroy()
+            table.remove(notifications, table.find(notifications, notification))
+            self:updatePositions()
+        end)
     end)
 end
 
