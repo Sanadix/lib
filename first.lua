@@ -426,7 +426,7 @@ function library:addTab(name)
     
                 picker.Name = "picker"
                 picker.Parent = main
-                picker.BackgroundColor3 = Color3.fromRGB(232, 0, 255)
+                picker.BackgroundColor3 = Color3.fromRGB(69, 23, 255)
                 picker.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 picker.BorderSizePixel = 0
                 picker.Size = UDim2.new(0, 100, 0, 100)
@@ -1401,7 +1401,7 @@ function library:addTab(name)
 
             picker.Name = "picker"
             picker.Parent = main
-            picker.BackgroundColor3 = Color3.fromRGB(232, 0, 255)
+            picker.BackgroundColor3 = Color3.fromRGB(69, 23, 255)
             picker.BorderColor3 = Color3.fromRGB(0, 0, 0)
             picker.BorderSizePixel = 0
             picker.Size = UDim2.new(0, 100, 0, 100)
