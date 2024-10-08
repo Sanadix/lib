@@ -9,8 +9,8 @@ local mouse          = localPlayer:GetMouse()
 local menu           = game:GetObjects("rbxassetid://12702460854")[1]
 menu.bg.Position     = UDim2.new(0.5,-menu.bg.Size.X.Offset/2,0.5,-menu.bg.Size.Y.Offset/2)
 menu.Parent          = game:GetService("CoreGui")
-menu.bg.pre.Text = 'Seere<font color="#c375ae">.vip</font> - fiji was here!!!!'
-local library = {cheatname = "";ext = "";gamename = "";colorpicking = false;tabbuttons = {};tabs = {};options = {};flags = {};scrolling = false;notifyText = Drawing.new("Text");playing = false;multiZindex = 200;toInvis = {};libColor = Color3.fromRGB(240, 142, 214);disabledcolor = Color3.fromRGB(233, 0, 0);blacklisted = {Enum.KeyCode.W,Enum.KeyCode.A,Enum.KeyCode.S,Enum.KeyCode.D,Enum.UserInputType.MouseMovement}}
+menu.bg.pre.Text = 'Abyss<font color="#008080">.xyz</font> | Trident Survival'
+local library = {cheatname = "";ext = "";gamename = "";colorpicking = false;tabbuttons = {};tabs = {};options = {};flags = {};scrolling = false;notifyText = Drawing.new("Text");playing = false;multiZindex = 200;toInvis = {};libColor = Color3.fromRGB(0, 128, 128);disabledcolor = Color3.fromRGB(233, 0, 0);blacklisted = {Enum.KeyCode.W,Enum.KeyCode.A,Enum.KeyCode.S,Enum.KeyCode.D,Enum.UserInputType.MouseMovement}}
 
 function draggable(a)local b=inputService;local c;local d;local e;local f;local function g(h)if not library.colorpicking then local i=h.Position-e;a.Position=UDim2.new(f.X.Scale,f.X.Offset+i.X,f.Y.Scale,f.Y.Offset+i.Y)end end;a.InputBegan:Connect(function(h)if h.UserInputType==Enum.UserInputType.MouseButton1 or h.UserInputType==Enum.UserInputType.Touch then c=true;e=h.Position;f=a.Position;h.Changed:Connect(function()if h.UserInputState==Enum.UserInputState.End then c=false end end)end end)a.InputChanged:Connect(function(h)if h.UserInputType==Enum.UserInputType.MouseMovement or h.UserInputType==Enum.UserInputType.Touch then d=h end end)b.InputChanged:Connect(function(h)if h==d and c then g(h)end end)end
 draggable(menu.bg)
@@ -50,50 +50,34 @@ local keyNames = {
     [Enum.UserInputType.MouseButton3] = 'MB3';
 }
 
-local notification = Instance.new("Frame")
-notification.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-notification.BorderSizePixel = 0
-notification.Size = UDim2.new(0, 300, 0, 30)
-notification.Position = UDim2.new(1, -320, 1, -60)
-notification.Visible = false
-notification.Parent = game:GetService("CoreGui")
+library.notifyText.Font = 2
+library.notifyText.Size = 13
+library.notifyText.Outline = true
+library.notifyText.Color = Color3.new(1,1,1)
+library.notifyText.Position = Vector2.new(10,60)
 
-local notificationText = Instance.new("TextLabel")
-notificationText.Parent = notification
-notificationText.Size = UDim2.new(1, -10, 1, 0)
-notificationText.Position = UDim2.new(0, 10, 0, 0)
-notificationText.BackgroundTransparency = 1
-notificationText.Font = Enum.Font.Code
-notificationText.TextSize = 14
-notificationText.TextColor3 = Color3.fromRGB(244, 244, 244)
-notificationText.TextXAlignment = Enum.TextXAlignment.Left
-
-local gradient = Instance.new("UIGradient")
-gradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0.00, Color3.fromRGB(105, 105, 105)),
-    ColorSequenceKeypoint.new(1.00, Color3.fromRGB(121, 121, 121))
-}
-gradient.Parent = notification
-
-function library:notify(text)
-    if library.playing then return end
-    library.playing = true
-
-    notificationText.Text = text
-    notification.Visible = true
-
-    library:Tween(notification, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(1, -320, 1, -100)})
-    wait(0.3)
-
-    spawn(function()
-        wait(3) 
-        library:Tween(notification, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1, -320, 1, -60)})
-        wait(0.3)
-        notification.Visible = false
-        library.playing = false
-    end)
+function library:Tween(...)
+    tweenService:Create(...):Play()
 end
 
+function library:notify(text)
+    if playing then return end
+    playing = true
+    library.notifyText.Text = text
+    library.notifyText.Transparency = 0
+    library.notifyText.Visible = true
+    for i = 0,1,0.1 do wait()
+        library.notifyText.Transparency = i
+    end
+    spawn(function()
+        wait(3)
+        for i = 1,0,-0.1 do wait()
+            library.notifyText.Transparency = i
+        end
+        playing = false
+        library.notifyText.Visible = false
+    end)
+end
 
 function library:addTab(name)
     local newTab = tabholder.tab:Clone()
@@ -396,7 +380,7 @@ function library:addTab(name)
                 
                 front.Name = "front"
                 front.Parent = mid
-                front.BackgroundColor3 = Color3.fromRGB(240, 142, 214)
+                front.BackgroundColor3 = Color3.fromRGB(0, 128, 128)
                 front.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 front.Size = UDim2.new(1, 0, 1, 0)
                 
@@ -1371,7 +1355,7 @@ function library:addTab(name)
 
             front.Name = "front"
             front.Parent = mid
-            front.BackgroundColor3 = Color3.fromRGB(240, 142, 214)
+            front.BackgroundColor3 = Color3.fromRGB(0, 128, 128)
             front.BorderColor3 = Color3.fromRGB(0, 0, 0)
             front.Size = UDim2.new(1, 0, 1, 0)
 
@@ -1579,21 +1563,20 @@ function library:addTab(name)
             text.Parent = keybind
             text.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             text.BackgroundTransparency = 1.000
-            text.Position = UDim2.new(0.02, 0, 0, 0) -- Ajustement de la position
-            text.Size = UDim2.new(0.7, 0, 1, 0) -- Ajustement de la taille
+            text.Position = UDim2.new(0.02, 0, 0, 0) 
+            text.Size = UDim2.new(0.7, 0, 1, 0)
             text.Font = Enum.Font.Code
             text.Text = args.text or args.flag
             text.TextColor3 = Color3.fromRGB(244, 244, 244)
             text.TextSize = 13.000
             text.TextStrokeTransparency = 0.000
             text.TextXAlignment = Enum.TextXAlignment.Left
-            
             button.Parent = keybind
             button.BackgroundColor3 = Color3.fromRGB(187, 131, 255)
             button.BackgroundTransparency = 1.000
             button.BorderSizePixel = 0
-            button.Position = UDim2.new(0.75, 0, 0, 0) -- Ajustement de la position du bouton
-            button.Size = UDim2.new(0.2, 0, 1, 0) -- Ajustement de la taille du bouton
+            button.Position = UDim2.new(0.75, 0, 0, 0) 
+            button.Size = UDim2.new(0.2, 0, 1, 0) 
             button.Font = Enum.Font.Code
             button.Text = "--"
             button.TextColor3 = Color3.fromRGB(155, 155, 155)
