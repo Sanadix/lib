@@ -717,57 +717,74 @@ function library:addTab(name)
 
             local function updateValue(value)
                 if library.colorpicking then return end
-				if value ~= 0 then
-					fill:TweenSize(UDim2.new(value/args.max,0,1,0),Enum.EasingDirection.In,Enum.EasingStyle.Sine,0.01)
-				else
-					fill:TweenSize(UDim2.new(0,1,1,0),Enum.EasingDirection.In,Enum.EasingStyle.Sine,0.01)
+                if value ~= 0 then
+                    fill:TweenSize(UDim2.new(value / args.max, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Sine, 0.01)
+                else
+                    fill:TweenSize(UDim2.new(0, 1, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Sine, 0.01)
                 end
-                valuetext.Text = value
+                
+                valuetext.Text = string.format("%.2f", value)
+                
                 library.flags[args.flag] = value
                 if args.callback then
                     args.callback(value)
                 end
-			end
-			local function updateScroll()
+            end
+            
+            local function updateScroll()
                 if scrolling or library.scrolling or not newTab.Visible or library.colorpicking then return end
-                while inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) and menu.Enabled do runService.RenderStepped:Wait()
+                while inputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) and menu.Enabled do 
+                    runService.RenderStepped:Wait()
                     library.scrolling = true
-                    valuetext.TextColor3 = Color3.fromRGB(255,255,255)
-					scrolling = true
-					local value = args.min + ((mouse.X - button.AbsolutePosition.X) / button.AbsoluteSize.X) * (args.max - args.min)
-					if value < 0 then value = 0 end
-					if value > args.max then value = args.max end
+                    valuetext.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    scrolling = true
+            
+                    local value = args.min + ((mouse.X - button.AbsolutePosition.X) / button.AbsoluteSize.X) * (args.max - args.min)
+                    
                     if value < args.min then value = args.min end
-					updateValue(math.floor(value))
+                    if value > args.max then value = args.max end
+            
+                    updateValue(value)
                 end
+                
                 if scrolling and not entered then
-                    valuetext.TextColor3 = Color3.fromRGB(255,255,255)
+                    valuetext.TextColor3 = Color3.fromRGB(255, 255, 255)
                 end
                 if not menu.Enabled then
                     entered = false
                 end
                 scrolling = false
                 library.scrolling = false
-			end
-			button.MouseEnter:connect(function()
+            end
+            
+            button.MouseEnter:connect(function()
                 if library.colorpicking then return end
-				if scrolling or entered then return end
+                if scrolling or entered then return end
                 entered = true
                 main.BorderColor3 = library.libColor
-				while entered do wait()
-					updateScroll()
-				end
-			end)
-			button.MouseLeave:connect(function()
+                while entered do 
+                    wait()
+                    updateScroll()
+                end
+            end)
+            
+            button.MouseLeave:connect(function()
                 entered = false
                 main.BorderColor3 = Color3.fromRGB(60, 60, 60)
-			end)
+            end)
+            
             if args.value then
                 updateValue(args.value)
             end
             library.flags[args.flag] = 0
-            library.options[args.flag] = {type = "slider",changeState = updateValue,skipflag = args.skipflag,oldargs = args}
-            updateValue(args.value or 0)
+            library.options[args.flag] = {
+                type = "slider",
+                changeState = updateValue,
+                skipflag = args.skipflag,
+                oldargs = args
+            }
+            
+            updateValue(args.value or 0)            
         end
         function group:addTextbox(args)
             if not args.flag then return warn("⚠️ incorrect arguments ⚠️") end
