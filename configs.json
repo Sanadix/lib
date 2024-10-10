@@ -1,6 +1,6 @@
 {
     "exampleConfig": {
-        "smooth_slider": 5,
+        "smooth_slider": 1,
         "prediction_speed": 0.1,
         "prediction_toggle": true,
         "aim": ["KeyCode", "G"],
