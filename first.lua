@@ -1138,7 +1138,10 @@ function library:addTab(name)
             updateValue(args.value or not args.multiselect and args.values[1] or "abcdefghijklmnopqrstuwvxyz")
         end
         function group:addConfigbox(args)
-            if not args.flag or not args.values then return warn("⚠️ incorrect arguments ⚠️") end
+            if not args.flag or not args.values or not args.type then
+                return warn("⚠️ incorrect arguments ⚠️")
+            end
+            
             groupbox.Size += UDim2.new(0, 0, 0, 138)
             library.multiZindex -= 1
             
@@ -1149,7 +1152,7 @@ function library:addTab(name)
             local UIListLayout = Instance.new("UIListLayout")
             local dwn = Instance.new("ImageLabel")
             local up = Instance.new("ImageLabel")
-        
+            
             list2.Name = "list2"
             list2.Parent = grouper
             list2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1169,7 +1172,7 @@ function library:addTab(name)
             main.Name = "main"
             main.Parent = frame
             main.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
-            main.BorderColor3 = Color3.fromRGB(30,30,30)
+            main.BorderColor3 = Color3.fromRGB(30, 30, 30)
             main.Size = UDim2.new(1, 0, 1, 0)
             
             holder.Name = "holder"
@@ -1213,40 +1216,53 @@ function library:addTab(name)
             up.ZIndex = 3
             up.Image = "rbxassetid://8548757311"
             up.Visible = false
-
+        
             local function updateValue(value)
                 if value == nil then return end
-                if not table.find(library.options[args.flag].values,value) then value = library.options[args.flag].values[1] end
-                library.flags[args.flag] = value
         
-                for i,v in next, holder:GetChildren() do
+                if not table.find(library.options[args.flag].values, value) then
+                    value = library.options[args.flag].values[1]
+                end
+        
+                -- Si c'est une configuration externe, on charge via la méthode externe
+                if args.type == "external" then
+                    loadExternalConfig(value)
+                elseif args.type == "local" then
+                    library.flags[args.flag] = value
+                    library:loadConfig() -- Charge la configuration locale
+                end
+        
+                for i, v in next, holder:GetChildren() do
                     if v.ClassName ~= "Frame" then continue end
-                    if v.text.Text == library.flags[args.flag] then
+                    if v.text.Text == value then
                         v.text.TextColor3 = library.libColor
                     else
-                        v.text.TextColor3 = Color3.fromRGB(255,255,255)
+                        v.text.TextColor3 = Color3.fromRGB(255, 255, 255)
                     end
                 end
+        
                 if library.flags[args.flag] then
                     if args.callback then
                         args.callback(library.flags[args.flag])
                     end
                 end
+        
                 holder.Visible = true
             end
+        
             holder:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
                 up.Visible = (holder.CanvasPosition.Y > 1)
                 dwn.Visible = (holder.CanvasPosition.Y + 1 < (holder.AbsoluteCanvasSize.Y - holder.AbsoluteSize.Y))
             end)
         
-        
             function refresh(tbl)
-                for i,v in next, holder:GetChildren() do
+                for i, v in next, holder:GetChildren() do
                     if v.ClassName == "Frame" then
                         v:Destroy()
                     end
                 end
-                for i,v in pairs(tbl) do
+        
+                for i, v in pairs(tbl) do
                     local item = Instance.new("Frame")
                     local button = Instance.new("TextButton")
                     local text = Instance.new("TextLabel")
@@ -1287,16 +1303,22 @@ function library:addTab(name)
         
                 holder.Visible = true
                 library.options[args.flag].values = tbl
-                updateValue(table.find(library.options[args.flag].values,library.flags[args.flag]) and library.flags[args.flag] or library.options[args.flag].values[1])
+                updateValue(table.find(library.options[args.flag].values, library.flags[args.flag]) and library.flags[args.flag] or library.options[args.flag].values[1])
             end
         
-        
             library.flags[args.flag] = ""
-            library.options[args.flag] = {type = "cfg",changeState = updateValue,values = args.values,refresh = refresh,skipflag = args.skipflag,oldargs = args}
+            library.options[args.flag] = {
+                type = "cfg",
+                changeState = updateValue,
+                values = args.values,
+                refresh = refresh,
+                skipflag = args.skipflag,
+                oldargs = args
+            }
         
             refresh(args.values)
             updateValue(args.value or not args.multiselect and args.values[1] or "abcdefghijklmnopqrstuwvxyz")
-        end
+        end        
         function group:addColorpicker(args)
             if not args.flag then return warn("⚠️ incorrect arguments ⚠️") end
             groupbox.Size += UDim2.new(0, 0, 0, 20)
