@@ -1,1 +1,26 @@
-{"prediction_delay":0,"prediction_speed":0.1,"prediction_toggle":false,"aim":["KeyCode","G"],"prediction_friction":0,"prediction_multiplier":1,"config_name":"test","smooth_slider":5,"velocity_adjustment":1,"target_part":"Head","selected_config":"test"}
+{
+    "test": {
+        "prediction_delay": 0,
+        "prediction_speed": 0.1,
+        "prediction_toggle": false,
+        "aim": ["KeyCode", "G"],
+        "prediction_friction": 0,
+        "prediction_multiplier": 1,
+        "config_name": "test",
+        "smooth_slider": 5,
+        "velocity_adjustment": 1,
+        "target_part": "Head"
+    },
+    "exampleConfig": {
+        "prediction_delay": 0.2,
+        "prediction_speed": 0.2,
+        "prediction_toggle": true,
+        "aim": ["KeyCode", "H"],
+        "prediction_friction": 0.1,
+        "prediction_multiplier": 1.5,
+        "config_name": "exampleConfig",
+        "smooth_slider": 3,
+        "velocity_adjustment": 1.2,
+        "target_part": "Neck"
+    }
+}
