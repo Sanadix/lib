@@ -1,1 +1,1 @@
-
+{"prediction_delay":0,"prediction_speed":0.1,"prediction_toggle":false,"aim":["KeyCode","G"],"prediction_friction":0,"prediction_multiplier":1,"config_name":"test","smooth_slider":5,"velocity_adjustment":1,"target_part":"Head","selected_config":"test"}
