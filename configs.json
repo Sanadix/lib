@@ -2,7 +2,7 @@
     "exampleConfig": {
         "smooth_slider": 5,
         "prediction_speed": 0.1,
-        "prediction_toggle": false,
+        "prediction_toggle": true,
         "aim": ["KeyCode", "G"],
         "prediction_friction": 0,
         "prediction_multiplier": 1,
