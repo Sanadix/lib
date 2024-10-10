@@ -1138,13 +1138,15 @@ function library:addTab(name)
             updateValue(args.value or not args.multiselect and args.values[1] or "abcdefghijklmnopqrstuwvxyz")
         end
         function group:addConfigbox(args)
-            if not args.flag or not args.values or not args.type then
-                return warn("⚠️ incorrect arguments ⚠️")
+            if not args.flag or not args.values then 
+                return warn("⚠️ incorrect arguments ⚠️") 
             end
-            
+        
+            -- Augmenter la taille de la boîte en fonction des configurations supplémentaires
             groupbox.Size += UDim2.new(0, 0, 0, 138)
             library.multiZindex -= 1
-            
+        
+            -- Création des éléments UI
             local list2 = Instance.new("Frame")
             local frame = Instance.new("Frame")
             local main = Instance.new("Frame")
@@ -1152,7 +1154,7 @@ function library:addTab(name)
             local UIListLayout = Instance.new("UIListLayout")
             local dwn = Instance.new("ImageLabel")
             local up = Instance.new("ImageLabel")
-            
+        
             list2.Name = "list2"
             list2.Parent = grouper
             list2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1160,7 +1162,7 @@ function library:addTab(name)
             list2.BorderSizePixel = 0
             list2.Position = UDim2.new(0, 0, 0.108108111, 0)
             list2.Size = UDim2.new(1, 0, 0, 138)
-            
+        
             frame.Name = "frame"
             frame.Parent = list2
             frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -1168,13 +1170,13 @@ function library:addTab(name)
             frame.BorderSizePixel = 2
             frame.Position = UDim2.new(0.02, -1, 0.0439999998, 0)
             frame.Size = UDim2.new(0, 205, 0, 128)
-            
+        
             main.Name = "main"
             main.Parent = frame
             main.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
-            main.BorderColor3 = Color3.fromRGB(30, 30, 30)
+            main.BorderColor3 = Color3.fromRGB(30,30,30)
             main.Size = UDim2.new(1, 0, 1, 0)
-            
+        
             holder.Name = "holder"
             holder.Parent = main
             holder.Active = true
@@ -1190,9 +1192,9 @@ function library:addTab(name)
             holder.AutomaticCanvasSize = Enum.AutomaticSize.Y
             holder.ScrollingEnabled = true
             holder.ScrollBarImageTransparency = 0
-            
+        
             UIListLayout.Parent = holder
-            
+        
             dwn.Name = "dwn"
             dwn.Parent = frame
             dwn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -1204,7 +1206,7 @@ function library:addTab(name)
             dwn.ZIndex = 3
             dwn.Image = "rbxassetid://8548723563"
             dwn.Visible = false
-            
+        
             up.Name = "up"
             up.Parent = frame
             up.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -1219,34 +1221,28 @@ function library:addTab(name)
         
             local function updateValue(value)
                 if value == nil then return end
-        
-                if not table.find(library.options[args.flag].values, value) then
-                    value = library.options[args.flag].values[1]
+                -- Vérifier que la valeur fait partie des options
+                if not table.find(library.options[args.flag].values, value) then 
+                    value = library.options[args.flag].values[1] 
                 end
-        
-                -- Si c'est une configuration externe, on charge via la méthode externe
-                if args.type == "external" then
-                    loadExternalConfig(value)
-                elseif args.type == "local" then
-                    library.flags[args.flag] = value
-                    library:loadConfig() -- Charge la configuration locale
-                end
+                -- Mettre à jour le flag de cette liste
+                library.flags[args.flag] = value
         
                 for i, v in next, holder:GetChildren() do
                     if v.ClassName ~= "Frame" then continue end
-                    if v.text.Text == value then
+                    if v.text.Text == library.flags[args.flag] then
                         v.text.TextColor3 = library.libColor
                     else
                         v.text.TextColor3 = Color3.fromRGB(255, 255, 255)
                     end
                 end
         
+                -- Si la valeur change, déclencher le callback
                 if library.flags[args.flag] then
                     if args.callback then
                         args.callback(library.flags[args.flag])
                     end
                 end
-        
                 holder.Visible = true
             end
         
@@ -1256,12 +1252,12 @@ function library:addTab(name)
             end)
         
             function refresh(tbl)
+                -- Rafraîchir la liste d'éléments
                 for i, v in next, holder:GetChildren() do
                     if v.ClassName == "Frame" then
                         v:Destroy()
                     end
                 end
-        
                 for i, v in pairs(tbl) do
                     local item = Instance.new("Frame")
                     local button = Instance.new("TextButton")
@@ -1306,19 +1302,15 @@ function library:addTab(name)
                 updateValue(table.find(library.options[args.flag].values, library.flags[args.flag]) and library.flags[args.flag] or library.options[args.flag].values[1])
             end
         
+            -- Initialisation du flag
             library.flags[args.flag] = ""
-            library.options[args.flag] = {
-                type = "cfg",
-                changeState = updateValue,
-                values = args.values,
-                refresh = refresh,
-                skipflag = args.skipflag,
-                oldargs = args
-            }
+            library.options[args.flag] = {type = "cfg", changeState = updateValue, values = args.values, refresh = refresh, skipflag = args.skipflag, oldargs = args}
         
+            -- Rafraîchir la liste et mettre à jour la valeur
             refresh(args.values)
             updateValue(args.value or not args.multiselect and args.values[1] or "abcdefghijklmnopqrstuwvxyz")
-        end        
+        end
+         
         function group:addColorpicker(args)
             if not args.flag then return warn("⚠️ incorrect arguments ⚠️") end
             groupbox.Size += UDim2.new(0, 0, 0, 20)
