@@ -1,26 +1,26 @@
 {
-    "test": {
+    "test1": {
         "prediction_delay": 0,
         "prediction_speed": 0.1,
         "prediction_toggle": false,
         "aim": ["KeyCode", "G"],
         "prediction_friction": 0,
         "prediction_multiplier": 1,
-        "config_name": "test",
+        "config_name": "test1",
         "smooth_slider": 5,
         "velocity_adjustment": 1,
         "target_part": "Head"
     },
-    "exampleConfig": {
+    "test2": {
         "prediction_delay": 0.2,
-        "prediction_speed": 0.2,
+        "prediction_speed": 0.15,
         "prediction_toggle": true,
         "aim": ["KeyCode", "H"],
-        "prediction_friction": 0.1,
+        "prediction_friction": 0.05,
         "prediction_multiplier": 1.5,
-        "config_name": "exampleConfig",
-        "smooth_slider": 3,
+        "config_name": "test2",
+        "smooth_slider": 8,
         "velocity_adjustment": 1.2,
-        "target_part": "Neck"
+        "target_part": "Torso"
     }
 }
