@@ -256,7 +256,7 @@ function library:addTab(name)
                 tooltipLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
                 tooltipLabel.BackgroundTransparency = 0.5
                 tooltipLabel.BorderSizePixel = 0
-                tooltipLabel.Position = UDim2.new(0, toggleframe.AbsoluteSize.X + 10, 0, 0)  -- Adjust the position to the side
+                tooltipLabel.Position = UDim2.new(0, toggleframe.AbsoluteSize.X + 10, 0, 0) 
                 tooltipLabel.Size = UDim2.new(0, 150, 0, 20)
                 tooltipLabel.Font = Enum.Font.Code
                 tooltipLabel.Text = args.tooltip
