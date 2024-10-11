@@ -256,7 +256,7 @@ function library:addTab(name)
                 tooltipLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
                 tooltipLabel.BackgroundTransparency = 0.5
                 tooltipLabel.BorderSizePixel = 0
-                tooltipLabel.Position = UDim2.new(0, 105, 0, 0) 
+                tooltipLabel.Position = UDim2.new(0, toggleframe.AbsoluteSize.X + 10, 0, 0)  -- Adjust the position to the side
                 tooltipLabel.Size = UDim2.new(0, 150, 0, 20)
                 tooltipLabel.Font = Enum.Font.Code
                 tooltipLabel.Text = args.tooltip
@@ -280,7 +280,7 @@ function library:addTab(name)
                 state = newState
                 library.flags[args.flag] = state
                 front.BackgroundColor3 = state and library.libColor or Color3.fromRGB(15, 15, 15)
-                text.TextColor3 = (args.danger and Color3.fromRGB(255, 0, 0)) or (state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144))
+                text.TextColor3 = args.danger and Color3.fromRGB(255, 0, 0) or (state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144))
                 if args.callback then
                     args.callback(state)
                 end
@@ -292,7 +292,7 @@ function library:addTab(name)
                 library.flags[args.flag] = state
                 mid.BorderColor3 = Color3.fromRGB(30, 30, 30)
                 front.BackgroundColor3 = state and library.libColor or Color3.fromRGB(15, 15, 15)
-                text.TextColor3 = (args.danger and Color3.fromRGB(255, 0, 0)) or (state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144))
+                text.TextColor3 = args.danger and Color3.fromRGB(255, 0, 0) or (state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144))
                 if args.callback then
                     args.callback(state)
                 end
@@ -308,6 +308,7 @@ function library:addTab(name)
         
             library.flags[args.flag] = false
             library.options[args.flag] = {type = "toggle", changeState = toggle, skipflag = args.skipflag, oldargs = args}
+        
             local toggle = {}
             function toggle:addKeybind(args)
                 if not args.flag then return warn("⚠️ incorrect arguments ⚠️ - missing args on toggle:keybind") end
