@@ -264,18 +264,16 @@ function library:addTab(name)
                 tooltipLabel.TextWrapped = true
                 tooltipLabel.TextXAlignment = Enum.TextXAlignment.Left
                 tooltipLabel.Visible = false
-            
+        
                 button.MouseEnter:Connect(function()
-                    local position = toggleframe.AbsolutePosition
-                    tooltipLabel.Position = UDim2.new(0, position.X + toggleframe.AbsoluteSize.X + 5, 0, position.Y)
+                    tooltipLabel.Position = UDim2.new(0, button.AbsolutePosition.X + button.AbsoluteSize.X + 10, 0, button.AbsolutePosition.Y)
                     tooltipLabel.Visible = true
                 end)
-            
+        
                 button.MouseLeave:Connect(function()
                     tooltipLabel.Visible = false
                 end)
             end
-            
         
             local state = false
             function toggle(newState)
