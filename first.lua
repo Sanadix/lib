@@ -450,7 +450,7 @@ function library:addTab(name)
     
                 hue.Name = "hue"
                 hue.Parent = main_2
-                hue.BackgroundColor3 = Color3.fromRGB(255, 0, 178)
+                hue.BackgroundColor3 = Color3.fromRGB(0, 128, 128)
                 hue.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 hue.BorderSizePixel = 0
                 hue.Size = UDim2.new(0, 20, 0, 100)
@@ -1442,7 +1442,7 @@ function library:addTab(name)
 
             hue.Name = "hue"
             hue.Parent = main_2
-            hue.BackgroundColor3 = Color3.fromRGB(255, 0, 178)
+            hue.BackgroundColor3 = Color3.fromRGB(0, 128, 128)
             hue.BorderColor3 = Color3.fromRGB(0, 0, 0)
             hue.BorderSizePixel = 0
             hue.Size = UDim2.new(0, 20, 0, 100)
@@ -1498,7 +1498,7 @@ function library:addTab(name)
 			end
 
             local white, black = Color3.new(1,1,1), Color3.new(0,0,0)
-            local colors = {Color3.new(1,0,0),Color3.new(1,1,0),Color3.new(0,1,0),Color3.new(0,1,1),Color3.new(0,0,1),Color3.new(1,0,1),Color3.new(1,0,0)}
+            local colors = {Color3.new(1,0,0),Color3.new(1,1,0),Color3.new(0,1,0),Color3.new(0,1,1),Color3.new(0,0,1),Color3.new(0, 128, 128),Color3.new(1,0,0)}
             local heartbeat = game:GetService("RunService").Heartbeat
 
             local pickerX,pickerY,hueY = 0,0,0
