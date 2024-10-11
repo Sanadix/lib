@@ -185,7 +185,6 @@ function library:addTab(name)
             local front = Instance.new("Frame")
             local text = Instance.new("TextLabel")
             local button = Instance.new("TextButton")
-            local tooltipLabel
         
             jigCount -= 1
             library.multiZindex -= 1
@@ -250,31 +249,6 @@ function library:addTab(name)
                 return
             end
         
-            if args.tooltip then
-                tooltipLabel = Instance.new("TextLabel")
-                tooltipLabel.Parent = toggleframe
-                tooltipLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-                tooltipLabel.BackgroundTransparency = 0.5
-                tooltipLabel.BorderSizePixel = 0
-                tooltipLabel.Size = UDim2.new(0, 150, 0, 20)
-                tooltipLabel.Font = Enum.Font.Code
-                tooltipLabel.Text = args.tooltip
-                tooltipLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                tooltipLabel.TextSize = 12
-                tooltipLabel.TextWrapped = true
-                tooltipLabel.TextXAlignment = Enum.TextXAlignment.Left
-                tooltipLabel.Visible = false
-        
-                button.MouseEnter:Connect(function()
-                    tooltipLabel.Position = UDim2.new(0, button.AbsolutePosition.X + button.AbsoluteSize.X + 10, 0, button.AbsolutePosition.Y)
-                    tooltipLabel.Visible = true
-                end)
-        
-                button.MouseLeave:Connect(function()
-                    tooltipLabel.Visible = false
-                end)
-            end
-        
             local state = false
             function toggle(newState)
                 state = newState
@@ -308,6 +282,7 @@ function library:addTab(name)
         
             library.flags[args.flag] = false
             library.options[args.flag] = {type = "toggle", changeState = toggle, skipflag = args.skipflag, oldargs = args}
+        
         
             local toggle = {}
             function toggle:addKeybind(args)
