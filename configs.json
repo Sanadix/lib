@@ -1,21 +1,20 @@
 {
     "daHoodConfig": {
-        "aimbot_fov": 120,
-        "aim_speed": 1.5,
-        "smooth_slider": 6,
-        "prediction_speed": 0.6,
+        "smooth_slider": 8,
+        "prediction_speed": 0.18,
         "prediction_toggle": true,
-        "aim": ["KeyCode", "G"],
-        "prediction_friction": 0.25,
-        "prediction_multiplier": 1.5,
+        "aim": ["KeyCode", "E"],
+        "prediction_friction": 0.05,
+        "prediction_multiplier": 1.1,
         "config_name": "daHoodConfig",
-        "velocity_adjustment": 1.2,
+        "velocity_adjustment": 1.25,
         "target_part": "Head",
-        "auto_lock": true,
-        "aim_only_moving": false,
+        "aimbot_fov": 150,
+        "aim_speed": 1.2,
         "fov_drawing": true,
-        "auto_fire": false,
-        "triggerbot": true,
-        "target_priority": "Closest"
+        "auto_lock": true,
+        "aim_only_moving": true,
+        "triggerbot": false,
+        "auto_fire": true
     }
 }
