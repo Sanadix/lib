@@ -178,17 +178,18 @@ function library:addTab(name)
             if not args.flag and args.text then args.flag = args.text end
             if not args.flag then return warn("⚠️ incorrect arguments ⚠️ - missing args on recent toggle") end
             groupbox.Size += UDim2.new(0, 0, 0, 20)
-
+        
             local toggleframe = Instance.new("Frame")
             local tobble = Instance.new("Frame")
             local mid = Instance.new("Frame")
             local front = Instance.new("Frame")
             local text = Instance.new("TextLabel")
             local button = Instance.new("TextButton")
-
+            local tooltipLabel
+        
             jigCount -= 1
             library.multiZindex -= 1
-
+        
             toggleframe.Name = "toggleframe"
             toggleframe.Parent = grouper
             toggleframe.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -202,20 +203,19 @@ function library:addTab(name)
             tobble.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             tobble.BorderColor3 = Color3.fromRGB(0, 0, 0)
             tobble.BorderSizePixel = 3
-                        tobble.Position = UDim2.new(0.0299999993, 0, 0.272000015, 0)
-
+            tobble.Position = UDim2.new(0.0299999993, 0, 0.272000015, 0)
             tobble.Size = UDim2.new(0, 10, 0, 10)
             
             mid.Name = "mid"
             mid.Parent = tobble
             mid.BackgroundColor3 = Color3.fromRGB(69, 23, 255)
-            mid.BorderColor3 = Color3.fromRGB(30,30,30)
+            mid.BorderColor3 = Color3.fromRGB(30, 30, 30)
             mid.BorderSizePixel = 2
             mid.Size = UDim2.new(0, 10, 0, 10)
             
             front.Name = "front"
             front.Parent = mid
-            front.BackgroundColor3 = Color3.fromRGB(15,15,15)
+            front.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
             front.BorderColor3 = Color3.fromRGB(0, 0, 0)
             front.Size = UDim2.new(0, 10, 0, 10)
             
@@ -227,7 +227,7 @@ function library:addTab(name)
             text.Size = UDim2.new(0, 0, 1, 2)
             text.Font = Enum.Font.Code
             text.Text = args.text or args.flag
-            text.TextColor3 = Color3.fromRGB(155, 155, 155)
+            text.TextColor3 = args.danger and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(155, 155, 155)
             text.TextSize = 13.000
             text.TextStrokeTransparency = 0.000
             text.TextXAlignment = Enum.TextXAlignment.Left
@@ -235,7 +235,6 @@ function library:addTab(name)
             button.Name = "button"
             button.Parent = toggleframe
             button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-
             button.BackgroundTransparency = 1.000
             button.BorderSizePixel = 0
             button.Size = UDim2.new(0, 101, 1, 0)
@@ -243,43 +242,72 @@ function library:addTab(name)
             button.Text = ""
             button.TextColor3 = Color3.fromRGB(0, 0, 0)
             button.TextSize = 14.000
-
+        
             if args.disabled then
                 button.Visible = false
                 text.TextColor3 = library.disabledcolor
                 text.Text = args.text
-            return end
-
+                return
+            end
+        
+            if args.tooltip then
+                tooltipLabel = Instance.new("TextLabel")
+                tooltipLabel.Parent = toggleframe
+                tooltipLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+                tooltipLabel.BackgroundTransparency = 0.5
+                tooltipLabel.BorderSizePixel = 0
+                tooltipLabel.Position = UDim2.new(1, 5, 0, 0)
+                tooltipLabel.Size = UDim2.new(0, 150, 0, 20)
+                tooltipLabel.Font = Enum.Font.Code
+                tooltipLabel.Text = args.tooltip
+                tooltipLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                tooltipLabel.TextSize = 12
+                tooltipLabel.TextWrapped = true
+                tooltipLabel.TextXAlignment = Enum.TextXAlignment.Left
+                tooltipLabel.Visible = false
+        
+                button.MouseEnter:Connect(function()
+                    tooltipLabel.Visible = true
+                end)
+        
+                button.MouseLeave:Connect(function()
+                    tooltipLabel.Visible = false
+                end)
+            end
+        
             local state = false
             function toggle(newState)
                 state = newState
                 library.flags[args.flag] = state
-                front.BackgroundColor3 = state and library.libColor or Color3.fromRGB(15,15,15)
-                text.TextColor3 = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144)
+                front.BackgroundColor3 = state and library.libColor or Color3.fromRGB(15, 15, 15)
+                text.TextColor3 = state and Color3.fromRGB(244, 244, 244) or (args.danger and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(144, 144, 144))
                 if args.callback then
                     args.callback(state)
                 end
             end
+        
             button.MouseButton1Click:Connect(function()
                 state = not state
                 front.Name = state and "accent" or "back"
                 library.flags[args.flag] = state
-                mid.BorderColor3 = Color3.fromRGB(30,30,30)
-                front.BackgroundColor3 = state and library.libColor or Color3.fromRGB(15,15,15)
-                text.TextColor3 = state and Color3.fromRGB(244, 244, 244) or Color3.fromRGB(144, 144, 144)
+                mid.BorderColor3 = Color3.fromRGB(30, 30, 30)
+                front.BackgroundColor3 = state and library.libColor or Color3.fromRGB(15, 15, 15)
+                text.TextColor3 = state and Color3.fromRGB(244, 244, 244) or (args.danger and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(144, 144, 144))
                 if args.callback then
                     args.callback(state)
                 end
             end)
-            button.MouseEnter:connect(function()
+        
+            button.MouseEnter:Connect(function()
                 mid.BorderColor3 = library.libColor
-			end)
-            button.MouseLeave:connect(function()
-                mid.BorderColor3 = Color3.fromRGB(30,30,30)
-			end)
-
+            end)
+        
+            button.MouseLeave:Connect(function()
+                mid.BorderColor3 = Color3.fromRGB(30, 30, 30)
+            end)
+        
             library.flags[args.flag] = false
-            library.options[args.flag] = {type = "toggle",changeState = toggle,skipflag = args.skipflag,oldargs = args}
+            library.options[args.flag] = {type = "toggle", changeState = toggle, skipflag = args.skipflag, oldargs = args}
             local toggle = {}
             function toggle:addKeybind(args)
                 if not args.flag then return warn("⚠️ incorrect arguments ⚠️ - missing args on toggle:keybind") end
