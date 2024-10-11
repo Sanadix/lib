@@ -256,7 +256,6 @@ function library:addTab(name)
                 tooltipLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
                 tooltipLabel.BackgroundTransparency = 0.5
                 tooltipLabel.BorderSizePixel = 0
-                tooltipLabel.Position = UDim2.new(0, toggleframe.AbsoluteSize.X + 10, 0, 0) 
                 tooltipLabel.Size = UDim2.new(0, 150, 0, 20)
                 tooltipLabel.Font = Enum.Font.Code
                 tooltipLabel.Text = args.tooltip
@@ -265,15 +264,18 @@ function library:addTab(name)
                 tooltipLabel.TextWrapped = true
                 tooltipLabel.TextXAlignment = Enum.TextXAlignment.Left
                 tooltipLabel.Visible = false
-        
+            
                 button.MouseEnter:Connect(function()
+                    local position = toggleframe.AbsolutePosition
+                    tooltipLabel.Position = UDim2.new(0, position.X + toggleframe.AbsoluteSize.X + 5, 0, position.Y)
                     tooltipLabel.Visible = true
                 end)
-        
+            
                 button.MouseLeave:Connect(function()
                     tooltipLabel.Visible = false
                 end)
             end
+            
         
             local state = false
             function toggle(newState)
