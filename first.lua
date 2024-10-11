@@ -103,11 +103,18 @@ function library:addTab(name)
             local state = v == newButton
             if state then
                 v.element.Visible = true
-                library:Tween(v.element, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0.000})
-
-            else
-                library:Tween(v.element, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1.000})
+                library:Tween(v.element, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                    BackgroundTransparency = 0.000,
+                    BackgroundColor3 = Color3.fromRGB(0, 128, 128) 
+                })
+                v.text.TextColor3 = Color3.fromRGB(244, 244, 244)
+                else
+                library:Tween(v.element, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                    BackgroundTransparency = 1.000,
+                    BackgroundColor3 = Color3.fromRGB(0, 128, 128) 
+                })
                 v.text.TextColor3 = Color3.fromRGB(144, 144, 144)
+                
             end
         end
     end)
